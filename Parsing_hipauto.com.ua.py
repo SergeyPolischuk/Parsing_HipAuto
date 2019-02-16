@@ -5,6 +5,7 @@ from datetime import datetime
 import requests
 from bs4 import BeautifulSoup
 
+#Это тестовый комментарий!
 
 def get_html(url):
     response = requests.get(url)
