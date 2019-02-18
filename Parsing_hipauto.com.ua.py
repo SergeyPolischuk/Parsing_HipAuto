@@ -35,13 +35,13 @@ def get_page_data(html):
     try:
         brands = soup.find_all('a', class_='fancy_inline droppeda')
         articles = soup.find_all('a', class_='ared')
-        # descriptions = soup.find_all('td', class_='g-descr cell ')
-        # terms = soup.find_all('td', class_='g-delivery smallprice cell ')
-        # remainders = soup.find_all('td', class_='g-box cell ')
+        descriptions = soup.find_all('td', class_='g-descr')
+        remainders = soup.find_all('td', class_='g-box cell')
         prices = soup.find_all('span', itemprop='price')
     except:
         brands = []
         articles = []
+        descriptions = []
         prices = []
 
 
@@ -57,11 +57,25 @@ def get_page_data(html):
     #     num_last_symbol = article.find('</b>')
     #     print(article[num_first_symbol:num_last_symbol])
 
+    # for description in descriptions:
+    #     description = str(description.find('a').contents).strip('[').strip("'")
+    #     num_last_symbol = description.find('<') - 4
+    #     print(description[:num_last_symbol].strip(' ').rstrip(' '))
+
+    for remainder in remainders:
+        remainder = str(remainder.contents)
+        num_first_symbol = remainder.find('</span>') + 10
+        num_last_symbol = remainder.find('</td>') - 1
+        print(remainder[num_first_symbol:num_last_symbol].strip('  ').strip(' '))
+
     # for price in prices:
-    #     price = str(price).replace('.', ',')
-    #     num_first_symbol = price.find('>') + 1
-    #     num_last_symbol = price.find('</span>')
-    #     print(price[num_first_symbol:num_last_symbol])
+        #v1
+        # price = str(price).replace('.', ',')
+        # num_first_symbol = price.find('>') + 1
+        # num_last_symbol = price.find('</span>')
+        # print(price[num_first_symbol:num_last_symbol])
+        #v2
+        # print(str(price.contents).strip(']').strip('[').strip("'").replace('.', ','))
 
 
     #_________________________________________
