@@ -5,7 +5,6 @@ from datetime import datetime
 import requests
 from bs4 import BeautifulSoup
 
-#Это тестовый комментарий!
 
 def get_html(url):
     response = requests.get(url)
@@ -30,19 +29,20 @@ def get_all_links(html):
 def get_page_data(html):
     #get_original_cars
     soup = BeautifulSoup(html, 'lxml')
+
     ## auto_models = soup.find('table', class_='get-info').find_all('tr')    #описание товаров
 
-    try:
-        brands = soup.find_all('a', class_='fancy_inline droppeda')
-        articles = soup.find_all('a', class_='ared')
-        descriptions = soup.find_all('td', class_='g-descr')
-        remainders = soup.find_all('td', class_='g-box cell')
-        prices = soup.find_all('span', itemprop='price')
-    except:
-        brands = []
-        articles = []
-        descriptions = []
-        prices = []
+    # try:
+    #     brands = soup.find_all('a', class_='fancy_inline droppeda')
+    #     articles = soup.find_all('a', class_='ared')
+    #     descriptions = soup.find_all('td', class_='g-descr')
+    #     remainders = soup.find_all('td', class_='g-box cell')
+    #     prices = soup.find_all('span', itemprop='price')
+    # except:
+    #     brands = []
+    #     articles = []
+    #     descriptions = []
+    #     prices = []
 
 
     # for brand in brands:
@@ -62,43 +62,44 @@ def get_page_data(html):
     #     num_last_symbol = description.find('<') - 4
     #     print(description[:num_last_symbol].strip(' ').rstrip(' '))
 
-    for remainder in remainders:
-        remainder = str(remainder.contents)
-        num_first_symbol = remainder.find('</span>') + 10
-        num_last_symbol = remainder.find('</td>') - 1
-        print(remainder[num_first_symbol:num_last_symbol].strip('  ').strip(' '))
+    # for remainder in remainders:
+    #     remainder = str(remainder.contents)
+    #     num_first_symbol = remainder.find('</span>') + 10
+    #     num_last_symbol = remainder.find('</td>') - 1
+    #     print(remainder[num_first_symbol:num_last_symbol].strip('  ').strip(' '))
 
     # for price in prices:
-        #v1
-        # price = str(price).replace('.', ',')
-        # num_first_symbol = price.find('>') + 1
-        # num_last_symbol = price.find('</span>')
-        # print(price[num_first_symbol:num_last_symbol])
-        #v2
-        # print(str(price.contents).strip(']').strip('[').strip("'").replace('.', ','))
+    #     # v1
+    #     # price = str(price).replace('.', ',')
+    #     # num_first_symbol = price.find('>') + 1
+    #     # num_last_symbol = price.find('</span>')
+    #     # print(price[num_first_symbol:num_last_symbol])
+    #     # v2
+    #     print(str(price.contents).strip(']').strip('[').strip("'").replace('.', ','))
 
 
     #_________________________________________
 
-    # try:
-    #     auto_models = soup.find('div', id='catalog-originals').find_all('tr')
-    # except:
-    #     auto_models = []
-    #
-    # original_cars = []
-    #
-    # for value in auto_models:
-    #     value = str(value)
-    #
-    #     num_symbol_end = value.find('</td>')
-    #     car_brand = value[9:num_symbol_end]     #определили название марки авто
-    #
-    #     num_symbol_start = value.find('</td> <td>') + 10
-    #     car_models = value[num_symbol_start:].strip('</td> </tr>').replace('\xa0', ' ')
-    #     car_models = str(car_models)            #определили модели марки авто
-    #
-    #     original_cars.append(car_brand + ' - ' + car_models)
+    try:
+        auto_models = soup.find('div', id='catalog-originals').find_all('tr')
+    except:
+        auto_models = []
 
+    print(auto_models)
+    original_cars = []
+
+    for value in auto_models:
+        value = str(value)
+
+        num_symbol_end = value.find('</td>')
+        car_brand = value[9:num_symbol_end]     #определили название марки авто
+
+        num_symbol_start = value.find('</td> <td>') + 10
+        car_models = value[num_symbol_start:].strip('</td> </tr>').replace('\xa0', ' ')
+        car_models = str(car_models)            #определили модели марки авто
+
+        original_cars.append(car_brand + ' - ' + car_models)
+    print(original_cars)
     # _________________________________________
 
     # try:
@@ -172,14 +173,14 @@ def get_page_data(html):
 def main():
     url = 'http://www.hipavto.com.ua/search/number/?article=OC+196&brand=34'
     all_links = get_all_links(get_html(url))
-    all_links2 = get_page_data(get_html(url))
+    # all_links2 = get_page_data(get_html(url))     #раскомментировать для получения марки/модели авто
 
     # with Pool(2) as p:
     #     p.map(make_all, all_links)
 
     for index, url in enumerate(all_links):
         html = get_html(url)
-        # data = get_page_data(html)
+        data = get_page_data(html)      #закомментировать для получения бренд/артикул/описание/цена/количество
         # try:
         #     workbook = xlsxwriter.Workbook('coinmarketcap.xlsx')
         #     worksheet = workbook.add_worksheet('data')
