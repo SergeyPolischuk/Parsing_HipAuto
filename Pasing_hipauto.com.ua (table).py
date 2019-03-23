@@ -72,16 +72,55 @@ def get_page_data(html):
         prices_list.append(str(price.contents).strip(']').strip('[').strip("'").replace('.', ','))
 
 
+    data = []
+    for num in range(len(brands_list)):
+        try:
+            brand = brands_list[num]
+        except:
+            brand = ''
+
+        try:
+            article = articles_list[num]
+        except:
+            article = ''
+
+        try:
+            description =descriptions_list[num]
+        except:
+            description = ''
+
+        try:
+            remainder = remainders_list[num]
+        except:
+            remainder = ''
+
+        try:
+            price = prices_list[num]
+        except:
+            price = ''
+
+        good_row = {'brand': brand,
+            'artcile': article,
+            'description': description,
+            'remainder': remainder,
+            'price': price}
+        print(good_row)
+
+
+
+
+    # data = {"Brands": brands_list, "Articles": articles_list, "Descriptions": descriptions_list, "Remainders": remainders_list, "Prices": prices_list}
+    #
+    # max_n = max([len(x) for x in data.values()])
+    # for field in data:
+    #     data[field] += [''] * (max_n - len(data[field]))
+    #     print(data)
+
 
     # проверка len для списка, если len < 542 - вводим ''
 
-    for i in range(len(brands_list)):
-        data = {'brand': brands_list[i],
-                'artcile': articles_list[i],
-                'description': descriptions_list[i],
-                'remainder': remainders_list[i]}
-                # 'price': prices_list[i]}
-        print(data)
+    # for i in range(len(brands_list)):
+
 
 
 # def write_csv(i, data):
