@@ -40,22 +40,21 @@ def get_page_data(html):
 
     brands_list = []
     for brand in brands:
-        brand = str(brand)
-        brand = brand.replace('Ë', 'E')
+        brand = str(brand).replace('Ë', 'E').replace('&amp;', '&')
         num_first_symbol = brand.find('>') + 1
         num_last_symbol = brand.find('</a>')
         brands_list.append(brand[num_first_symbol:num_last_symbol])
 
     articles_list = []
     for article in articles:
-        article = str(article).replace('●', '')
+        article = str(article).replace('●', '').replace(';', '')
         num_first_symbol = article.find('<b>') + 3
         num_last_symbol = article.find('</b>')
         articles_list.append(article[num_first_symbol:num_last_symbol])
 
     descriptions_list = []
     for description in descriptions:
-        description = str(description.find('a').contents).strip('[').strip("'")
+        description = str(description.find('a').contents).strip('[').strip("'").replace(';', '')
         num_last_symbol = description.find('<') - 4
         descriptions_list.append(description[:num_last_symbol].strip(' ').rstrip(' '))
 
@@ -68,7 +67,7 @@ def get_page_data(html):
 
     prices_list = []
     for price in prices:
-        prices_list.append(str(price.contents).strip(']').strip('[').strip("'").replace('.', ','))
+        prices_list.append(str(price.contents).strip(']').strip('[').strip("'"))
 
 
     data = []
