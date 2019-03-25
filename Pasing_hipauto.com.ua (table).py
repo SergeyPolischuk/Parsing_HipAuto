@@ -117,7 +117,13 @@ def write_csv(data):
                 key['price']))
 
 def main():
-    url = 'http://www.hipavto.com.ua/search/number/?article=OC+196&brand=34'
+    # url = 'http://www.hipavto.com.ua/search/number/?article=OC+196&brand=34'
+    url = input('Программа создаст файл с расширением '"'csv'"' в директорию расположения файла.\n'
+              'Для этого вам необходимо:\n'
+              ' 1. в поиске сайта http://www.hipavto.com.ua ввести интересующий товар;\n'
+              ' 2. дождаться генерации URL сайтом и скопировать его;\n'
+              ' 3. вставить сгенерированный URL в программу в строке '"'input url:'"'\n'
+              '    input url: ')
     all_data = get_page_data(get_html(url))
     write_csv(all_data)
 
